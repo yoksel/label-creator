@@ -1,0 +1,136 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Label creator</title>
+    <style>
+        BODY {
+            font: 16px/1.4 Georgia, serif;
+            }
+        #form {
+            padding: 1em;
+            background: #DDD;
+            border: 1px solid #CCC;
+            border-radius: 10px;
+            }
+        FIELDSET {
+            padding: .5em 0;
+            border: 0;
+            }
+        LABEL {
+            display: inline-block;
+            min-width: 100px;
+            margin-right: .5em;
+            text-align: right;
+            font-weight: bold;
+            }
+        INPUT {
+            width: 500px;
+            padding: .2em;
+            border: 1px solid #CCC;
+            border-radius: 5px;
+            font: inherit;
+            }
+        TABLE {
+            width: 100%;
+            border-collapse: collapse;
+            }
+        TD {
+            padding: 10px;
+            border-bottom: 1px solid #CCC;
+            text-align: right;
+            }
+        TD:not(:first-child) {
+            border-left: 1px solid #CCC;
+            }
+        .l-wrapper {
+            width: 100%;
+            min-width: 800px;
+            max-width: 1000px;
+            margin: 3em auto;
+            padding: 1em;
+            }
+        @media print {
+            #form {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="l-wrapper">
+        <form action="" id="form">
+            <fieldset>
+                <label for="polis">Полис:</label>
+                <input type="text" id="polis"/>
+            </fieldset>
+            <fieldset>
+                <label for="address">Адрес:</label>
+                <input type="text" id="address"/>
+            </fieldset>
+            <fieldset>
+                <label for="doctor">Врач:</label>
+                <input type="text" id="doctor" data-perfix="Врач: "/>
+            </fieldset>
+        </form>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        console.log("hello");
+        var doc = document;
+        var inputs = doc.querySelectorAll("#form input");
+        var result = doc.querySelector("#result");
+        console.log(inputs);
+
+        var tdNum = 3;
+        var trNum = 15;
+
+        for (var i = 0; i < inputs.length; i++){
+            inputs[i].onkeyup = function(){
+                console.log("onkeyup");
+                createTable();
+            }
+        }
+
+        function createTable(){
+            var cellContent = "";
+            var tableContent = "";
+
+            for (var i = 0; i < inputs.length; i++){
+                var val = inputs[i].value;
+                var item = "";
+                if ( val != "" ){
+                    var prefix = inputs[i].getAttribute("data-perfix") || "";
+                    item = "<div>" + prefix + val + "</div>";
+                }
+                cellContent += item;
+                console.log ("cellContent: ");
+                console.log (cellContent);
+            }
+
+
+            for (var i = 0; i < trNum; i++) {
+                var tdItems = "";
+                console.log("tr: " + i);
+                for (var k = 0; k < tdNum; k++) {
+                    console.log("td: " + k);
+                    tdItems += "<td>" + cellContent + "</td>";
+                }
+
+                tableContent += "<tr>" + tdItems + "</tr>";
+
+            }
+
+            // console.log(tableContent);
+            tableContent = "<table>" + tableContent + "</table>";
+
+            result.innerHTML = tableContent;
+            // console.log(result);
+
+        }
+
+    </script>
+</body>
+</html>
