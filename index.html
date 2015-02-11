@@ -4,7 +4,7 @@
     <title>Label creator</title>
     <style>
         BODY {
-            font: 16px/1.4 Georgia, serif;
+            font: 14px/1.4 Georgia, serif;
             }
         #form {
             padding: 1em;
@@ -33,15 +33,19 @@
         TABLE {
             width: 100%;
             border-collapse: collapse;
+            font: inherit;
             }
         TD {
             padding: 10px;
             border-bottom: 1px solid #CCC;
             text-align: right;
             }
-        TD:not(:first-child) {
-            border-left: 1px solid #CCC;
-            }
+            TD:not(:first-child) {
+                border-left: 1px solid #CCC;
+                }
+            TR:last-child TD {
+                border-bottom: 0;
+                }
         .l-wrapper {
             width: 100%;
             min-width: 800px;
@@ -50,9 +54,15 @@
             padding: 1em;
             }
         @media print {
+            BODY {
+                font-size: 12px;
+                }
             #form {
                 display: none;
-            }
+                }
+            .l-wrapper {
+                margin: 0;
+                }
         }
     </style>
 </head>
