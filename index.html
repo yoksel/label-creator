@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
@@ -7,6 +8,7 @@
             font: 14px/1.4 Georgia, serif;
             }
         #form {
+            margin-bottom: 2em;
             padding: 1em;
             background: #DDD;
             border: 1px solid #CCC;
@@ -18,7 +20,7 @@
             }
         LABEL {
             display: inline-block;
-            min-width: 100px;
+            min-width: 150px;
             margin-right: .5em;
             text-align: right;
             font-weight: bold;
@@ -36,9 +38,9 @@
             font: inherit;
             }
         TD {
-            padding: 10px;
+            padding: 8px;
             border-bottom: 1px solid #CCC;
-            text-align: right;
+            text-align: left;
             }
             TD:not(:first-child) {
                 border-left: 1px solid #CCC;
@@ -55,7 +57,7 @@
             }
         @media print {
             BODY {
-                font-size: 12px;
+                font-size: 14px;
                 }
             #form {
                 display: none;
@@ -75,8 +77,16 @@
                 <input type="text" id="polis"/>
             </fieldset>
             <fieldset>
+                <label for="name">ФИО полностью:</label>
+                <input type="text" id="name"/>
+            </fieldset>
+            <fieldset>
                 <label for="address">Адрес:</label>
                 <input type="text" id="address"/>
+            </fieldset>
+            <fieldset>
+                <label for="date">Дата рождения:</label>
+                <input type="text" id="date"/>
             </fieldset>
             <fieldset>
                 <label for="doctor">Врач:</label>
@@ -88,14 +98,13 @@
     </div>
 
     <script>
-        console.log("hello");
         var doc = document;
         var inputs = doc.querySelectorAll("#form input");
         var result = doc.querySelector("#result");
         console.log(inputs);
 
         var tdNum = 3;
-        var trNum = 15;
+        var trNum = 10;
 
         for (var i = 0; i < inputs.length; i++){
             inputs[i].onkeyup = function(){
