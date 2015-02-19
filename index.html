@@ -7,6 +7,9 @@
         BODY {
             font: 14px/1.4 Georgia, serif;
             }
+        A {
+            color: steelblue;
+            }
         #form {
             margin-bottom: 2em;
             padding: 1em;
@@ -55,6 +58,21 @@
             margin: 3em auto;
             padding: 1em;
             }
+        .l-footer {
+            display: none;
+            margin-top: 1.5em;
+            }
+        .placeholder {
+            padding: 1em;
+            background: #EEE;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 2em;
+            color: #AAA;
+            }
+        .js-show {
+            display: block;
+            }
         @media print {
             BODY {
                 font-size: 14px;
@@ -64,6 +82,9 @@
                 }
             .l-wrapper {
                 margin: 0;
+                }
+            .placeholder {
+                display: none;
                 }
         }
     </style>
@@ -95,20 +116,26 @@
         </form>
 
         <div id="result"></div>
+
+        <footer id="footer" class="l-footer">Сделано на странице: <a href="http://yoksel.github.io/label-creator">http://yoksel.github.io/label-creator</a></footer>
     </div>
 
     <script>
         var doc = document;
         var inputs = doc.querySelectorAll("#form input");
         var result = doc.querySelector("#result");
-        console.log(inputs);
+        var footer = doc.querySelector("footer");
+        var showClass = "js-show";
+
+        var placeholderHtml = "<div class='placeholder'>&uarr; Заполните поля &uarr;</div>";
 
         var tdNum = 3;
         var trNum = 10;
 
+        result.innerHTML = placeholderHtml;
+
         for (var i = 0; i < inputs.length; i++){
             inputs[i].onkeyup = function(){
-                console.log("onkeyup");
                 createTable();
             }
         }
@@ -117,37 +144,42 @@
             var cellContent = "";
             var tableContent = "";
 
+            var tableHasContent = false;
+
             for (var i = 0; i < inputs.length; i++){
                 var val = inputs[i].value;
                 var item = "";
                 if ( val != "" ){
+                    tableHasContent = true;
                     var prefix = inputs[i].getAttribute("data-perfix") || "";
                     item = "<div>" + prefix + val + "</div>";
                 }
                 cellContent += item;
-                console.log ("cellContent: ");
-                console.log (cellContent);
             }
 
+            // Table has content
+            if ( tableHasContent ) {
 
-            for (var i = 0; i < trNum; i++) {
-                var tdItems = "";
-                console.log("tr: " + i);
-                for (var k = 0; k < tdNum; k++) {
-                    console.log("td: " + k);
-                    tdItems += "<td>" + cellContent + "</td>";
+                for (var i = 0; i < trNum; i++) {
+                    var tdItems = "";
+                    for (var k = 0; k < tdNum; k++) {
+                        tdItems += "<td>" + cellContent + "</td>";
+                    }
+
+                    tableContent += "<tr>" + tdItems + "</tr>";
                 }
 
-                tableContent += "<tr>" + tdItems + "</tr>";
+                tableContent = "<table>" + tableContent + "</table>";
 
-            }
+                result.innerHTML = tableContent;
+                footer.classList.add(showClass);
 
-            // console.log(tableContent);
-            tableContent = "<table>" + tableContent + "</table>";
-
-            result.innerHTML = tableContent;
-            // console.log(result);
-
+            } // if tableHasContent
+            // Table is empty
+            else {
+                result.innerHTML = placeholderHtml;
+                footer.classList.remove(showClass);
+            } // end if
         }
 
     </script>
